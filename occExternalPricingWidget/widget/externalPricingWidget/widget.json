@@ -1,0 +1,23 @@
+{
+  "imports": [
+    "product",
+    "category",
+    "home",
+    "order",
+    "payment",
+    "orderDetails"
+  ],
+  "translations": [
+    {
+      "name": "[External Pricing] - Widget",
+      "language": "en_US"
+    }
+  ],
+  "i18nresources": "widget",
+  "availableToAllPages": true,
+  "javascript": "main",
+  "jsEditable": true,
+  "minWidth": 1,
+  "global": true,
+  "config": {}
+}
