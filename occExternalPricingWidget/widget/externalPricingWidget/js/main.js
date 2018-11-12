@@ -22,8 +22,8 @@ define([
 
     var POST = 'POST';
     var TYPE_JSON = 'json';
-    var PRICING_URL = "https://sse.leedium.com/v1/leedium/externalPrice";
-    // var PRICING_URL = "/ccstorex/custom/v1/leedium/externalPricing"
+    var PRICING_URL = "https://sse.leedium.com/v1/webhook/externalPrice";
+    // var PRICING_URL = "/ccstorex/custom/v1/webhook/externalPricing"
 
     return {
         onLoad: function (widget) {
@@ -48,7 +48,6 @@ define([
                     }, []);
 
                     if (cartObj.items.length) {
-                        console.log('PREPRICING', cartObj);
                         $.ajax({
                             type: POST,
                             dataType: TYPE_JSON,
@@ -56,23 +55,30 @@ define([
                             url: PRICING_URL,
                             data: JSON.stringify(cartObj),
                             success: function (data) {
-                                if (data.items.length) {
-                                    data.items.map(function (item) {
-                                        widget.cart().items().map(function (cartItem) {
+                                data.items.map(function (item) {
+                                    widget.cart().items().map(function (updatedItem) {
+                                        return function (cartItem) {
                                             if (
-                                                cartItem.productId === item.productId &&
-                                                cartItem.catRefId === item.catRefId &&
-                                                item.externalPrice &&
-                                                item.externalPriceQuantity
+                                                cartItem.productId === updatedItem.productId &&
+                                                cartItem.catRefId === updatedItem.catRefId &&
+                                                updatedItem.externalPrice &&
+                                                updatedItem.externalPriceQuantity
                                             ) {
-                                                cartItem.externalPrice(item.externalPrice);
-                                                cartItem.externalPriceQuantity(item.externalPriceQuantity);
+                                                cartItem.externalPrice(updatedItem.externalPrice);
+                                                cartItem.externalPriceQuantity(updatedItem.externalPriceQuantity);
                                             }
-                                        })
-                                    });
+                                        }
+                                    }(item))
+                                });
+
+                                /**
+                                 * Listen to the cart when the price is ready, to mark the cart as changed with new data
+                                 * Without this the cart is marked dirty before the cart fully processes the change
+                                 */
+                                $.Topic(pubsub.topicNames.CART_PRICE_COMPLETE).subscribe(function checkPriceComplete() {
                                     widget.cart().markDirty();
-                                    console.log(widget.cart())
-                                }
+                                    $.Topic(pubsub.topicNames.CART_PRICE_COMPLETE).unsubscribe(checkPriceComplete);
+                                })
                             },
                             error: function (err) {
 
@@ -81,7 +87,6 @@ define([
                     }
                 }
             };
-            console.log('[External Pricing Widget]');
             widget.cart().setCallbackFunctions(pricingCallbackObj);
         }
     };
