@@ -10,3 +10,5 @@ This widget akes a prepricing call to an external system which then will return 
 2.  Zip and package widget
 3.  Upload the widget using the extextions manger in the OCC Admin
 
+If you want to test this with a dummy pricing object you can use the /externalPrice [occ-sse-webhook-stubs](https://github.com/leedium/occ-sse-webhook-stubs "Webhook stubs for OCC")
+
