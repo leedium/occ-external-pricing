@@ -33,7 +33,8 @@ define([
                  *   only include items that do not have external prices applied
                  */
                 prepricing: function () {
-                    console.log('cart', widget.cart().items());
+                    console.log('externalPricing:prepricing', widget.cart().items());
+                    var externalFound = false;
                     var cartObj = {
                         items: []
                     };
@@ -43,6 +44,8 @@ define([
                                 productId: item.productId,
                                 catRefId: item.catRefId
                             });
+                        } else {
+                            externalFound = true;
                         }
                         return a;
                     }, []);
@@ -70,15 +73,9 @@ define([
                                         }
                                     }(item))
                                 });
-
-                                /**
-                                 * Listen to the cart when the price is ready, to mark the cart as changed with new data
-                                 * Without this the cart is marked dirty before the cart fully processes the change
-                                 */
-                                $.Topic(pubsub.topicNames.CART_PRICE_COMPLETE).subscribe(function checkPriceComplete() {
+                                setTimeout(function () {
                                     widget.cart().markDirty();
-                                    $.Topic(pubsub.topicNames.CART_PRICE_COMPLETE).unsubscribe(checkPriceComplete);
-                                })
+                                }, 500);
                             },
                             error: function (err) {
 
