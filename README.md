@@ -3,6 +3,11 @@
 Interface and modules to help implement [external pricing](https://docs.oracle.com/cd/E97801_01/Cloud.18C/ExtendingCC/html/s2201integratewithanexternalpricingsy01.html "External Pricing") in [Oracle Commerce Cloud](https://cloud.oracle.com/en_US/commerce-cloud "Oracle Commerce Cloud")
 This widget akes a prepricing call to an external system which then will return the new price and then apply it to the cart model.
 
+- [External Pricing ](https://docs.oracle.com/cd/E97801_01/Cloud.18C/ExtendingCC/html/s2201integratewithanexternalpricingsy01.html "External Pricing in Oracle Commerce Cloud")
+  - Add the following products to your OCC catalog [/stubs/tests/json/externalPrice-req.json](https://github.com/leedium/occ-sse-webhook-stubs/blob/master/sse/tests/json/externalPrice-req.json)
+  - Add the following products to defined in [/stubs/price.json](https://github.com/leedium/occ-sse-webhook-stubs/blob/master/sse/tests/json/externalPrice-req.json) to return adjusting pricing
+
+
 ##### OCC version 16+
 
 ### Instructions
