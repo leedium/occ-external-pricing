@@ -1,6 +1,6 @@
 /* global define */
 /**
- * @project adyen
+ * @project occ-external-pricing-widget
  * @file main.js
  * @company leedium
  * @createdBy davidlee
